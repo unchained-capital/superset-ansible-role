@@ -1,0 +1,21 @@
+description "superset-web"
+
+exec 2>&1
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+respawn
+respawn limit 10 5
+
+console log
+
+setuid {{ superset_web_user  }}
+setgid {{ superset_web_group }}
+
+env PYTHONPATH="{{ superset_conf_dir }}"
+env SUPERSET_HOME="{{ superset_data_dir }}"
+chdir {{ superset_root_dir }}
+script
+  exec ./{{ superset_venv_name }}/bin/uwsgi -s "{{ superset_socket_path }}" --master --processes {{ superset_web_workers }} --manage-script-name --venv "{{ superset_venv_dir }}" --module superset --callable app --logto "{{ superset_log_dir }}/uwsgi.log" --logformat '{{ superset_web_log_format }}'
+end script  

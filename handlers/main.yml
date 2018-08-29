@@ -1,0 +1,5 @@
+---
+
+- name: restart superset-web
+  service: name=superset-web state=restarted
+  when: "{{ superset_web_enabled }}" 

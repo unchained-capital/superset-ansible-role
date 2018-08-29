@@ -1,0 +1,41 @@
+---
+
+superset_web_group_id: ~
+superset_web_user_id:  ~
+superset_web_group:    www-data
+superset_web_user:     www-data
+
+superset_root_dir: /srv/superset
+superset_tmp_dir:  "{{ superset_root_dir }}/tmp"
+superset_log_dir:  /var/log/superset
+superset_pid_dir:  /srv
+superset_conf_dir: /etc/superset
+superset_data_dir: /var/lib/superset
+
+superset_python_command: ~
+
+superset_venv_name: "venv"
+superset_venv_dir:  "{{ superset_root_dir }}/{{ superset_venv_name }}"
+superset_venv_command: virtualenv
+superset_venv_install_base_command: "{{ superset_venv_command }} {{ superset_venv_name }}"
+superset_venv_install_command: "{% if superset_python_command %}{{ superset_venv_install_base_command }} --python={{ superset_python_command }}{% else %}{{ superset_venv_install_base_command }}{% endif %}"
+
+superset_pip_packages:
+  - superset
+  - psycopg2
+  - uwsgi
+
+superset_web_workers: 2
+superset_web_log_format: '%(addr) - %(user) [%(ltime)] "%(method) %(uri) %(proto)" %(status) %(size) "%(referer)" "%(uagent)"'
+superset_socket_path:    "{{ superset_tmp_dir }}/superset.sock"
+
+#
+# For configuration options, see:
+#
+#   * https://github.com/apache/incubator-superset/blob/master/superset/config.py
+#   * https://flask-appbuilder.readthedocs.io/en/latest/config.html
+#   
+superset_config: ~
+
+superset_web_state:   running
+superset_web_enabled: yes

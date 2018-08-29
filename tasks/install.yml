@@ -1,0 +1,30 @@
+---
+
+- include: user_and_group.yml
+
+- name: Ensure root directory exists
+  file: path="{{ superset_root_dir }}" state=directory owner=root group=root mode=0755
+
+- name: Ensure log directory exists
+  file: path="{{ superset_log_dir }}" state=directory owner="{{ superset_web_user }}" group="{{ superset_web_group }}" mode=0755
+
+- name: Ensure config directory exists
+  file: path="{{ superset_conf_dir }}" state=directory owner=root group=root mode=0755
+
+- name: Ensure data directory exists
+  file: path="{{ superset_data_dir }}" state=directory owner="{{ superset_web_user }}" group="{{ superset_web_group }}" mode=0755
+
+- name: Ensure tmp directory exists
+  file: path="{{ superset_tmp_dir }}" state=directory owner="{{ superset_web_user }}" group="{{ superset_web_group }}" mode=0755
+
+- name: Ensure virtualenv exists
+  command: "{{ superset_venv_install_command }}"
+  args:
+    chdir:   "{{ superset_root_dir }}"
+    creates: "{{ superset_venv_dir }}"
+
+- name: Ensure packages are installed
+  command: "./{{ superset_venv_name }}/bin/pip install {{ item }}"
+  args:
+    chdir:   "{{ superset_root_dir }}"
+  with_items: "{{ superset_pip_packages }}"

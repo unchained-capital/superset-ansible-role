@@ -1,0 +1,15 @@
+# {{ ansible_managed }}
+
+#---------------------------------------------------------
+# Superset specific config
+#---------------------------------------------------------
+
+# See https://github.com/apache/incubator-superset/blob/master/superset/config.py
+
+FLASK_USE_RELOAD = False
+
+#---------------------------------------------------------
+
+{% if superset_config %}
+{{ superset_config }}
+{% endif %}

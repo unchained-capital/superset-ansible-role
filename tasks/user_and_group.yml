@@ -1,0 +1,18 @@
+---
+
+- name: Configuring superset web group (without explicit ID)
+  when: "{{ superset_web_group_id is not defined }}"
+  group: name={{ superset_web_group }}
+
+- name: Configuring superset web group (with explicit ID)
+  when: "{{ superset_web_group_id is defined }}"
+  group: name={{ superset_web_group }} gid={{ superset_web_group_id }}
+  
+- name: Configuring superset web user (without explicit ID)
+  when: "{{ superset_web_user_id is not defined }}"
+  user: name={{ superset_web_user }} group={{ superset_web_group }} home={{ superset_pid_dir }} createhome=no
+
+- name: Configuring superset web user (with explicit ID)
+  when: "{{ superset_web_user_id is defined }}"
+  user: name={{ superset_web_user }} group={{ superset_web_group }} home={{ superset_pid_dir }} createhome=no uid={{ superset_web_user_id }}
+

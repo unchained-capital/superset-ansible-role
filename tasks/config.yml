@@ -1,0 +1,6 @@
+---
+
+- name: Ensure config file is up to date
+  template: src="templates/config.py.j2" dest="{{ superset_conf_dir }}/superset_config.py" owner=root group="{{ superset_web_group }}" mode=0640
+  notify:
+    - restart superset-web

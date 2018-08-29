@@ -1,0 +1,10 @@
+---
+
+- include: install.yml
+  tags: [superset]
+
+- include: config.yml
+  tags: [superset, config]
+
+- include: service.yml
+  tags: [superset, service]
